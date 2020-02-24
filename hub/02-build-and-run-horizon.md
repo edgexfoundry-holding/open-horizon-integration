@@ -8,11 +8,9 @@ If you are not, you may need to export all previous environment variables from s
 
 ### Create and Persist Environment Variables
 
-NOTE: Replace `x.x.x.x` with the actual IP address of your machine.
-
 ``` bash
-export MY_IP=x.x.x.x
-echo "export MY_IP=x.x.x.x" >> ~/.bashrc
+export MY_IP=`ifconfig | egrep 'inet ' | awk '{ print $2 }' | egrep -v '^172.|^10.|^127.' | head -1`
+echo "export MY_IP=${MY_IP}" >> ~/.bashrc
 export HZN_ORG_ID=testorg
 echo "export HZN_ORG_ID=testorg" >> ~/.bashrc
 export HZN_EXCHANGE_URL=http://${MY_IP}:3090/v1/
@@ -25,13 +23,13 @@ echo "export HZN_EXCHANGE_ROOT_USER_AUTH='root/root:Horizon-Rul3s'" >> ~/.bashrc
 
 ### Edit the Hub Services Configuration JSON
 
-NOTE: Again, this is assuming that you cloned this repository and it is located at `./horizon-edgex/`.
+NOTE: Again, this is assuming that you cloned this repository and it is located at `./open-horizon-integration/`.
 
 Change to the `oh` folder and and generate the hub config file, config.json.
 Edit the `config.json` file if you would like to make changes.
 
 ``` bash
-cd horizon-edgex/oh
+cd open-horizon-integration/hub/oh
 envsubst '${MY_IP}' < config.json.template > config.json
 ```
 
