@@ -64,13 +64,13 @@ curl -u ${HZN_EXCHANGE_ROOT_USER_AUTH} ${HZN_EXCHANGE_URL}admin/version
 ```
 
 ``` bash
-curl -u ${HZN_EXCHANGE_ROOT_USER_AUTH} ${HZN_EXCHANGE_URL}admin/status | jq .
+curl --silent -u ${HZN_EXCHANGE_ROOT_USER_AUTH} ${HZN_EXCHANGE_URL}admin/status | jq .
 ```
 
 If all is well, let's continue by listing the existing Organizations:
 
 ``` bash
-curl -u ${HZN_EXCHANGE_ROOT_USER_AUTH} ${HZN_EXCHANGE_URL}orgs | jq .
+curl --silent -u ${HZN_EXCHANGE_ROOT_USER_AUTH} ${HZN_EXCHANGE_URL}orgs | jq .
 ```
 
 Add an Organization named `testorg`:
@@ -82,7 +82,7 @@ curl -sSf -X POST -u ${HZN_EXCHANGE_ROOT_USER_AUTH} -H "Content-Type:application
 And then list the existing Organizations again to see `testorg` now in the list:
 
 ``` bash
-curl -u ${HZN_EXCHANGE_ROOT_USER_AUTH} ${HZN_EXCHANGE_URL}orgs | jq .
+curl --silent -u ${HZN_EXCHANGE_ROOT_USER_AUTH} ${HZN_EXCHANGE_URL}orgs | jq .
 ```
 
 If all is well, let's "prime the pump" by clearing the tables and refilling to a known state:
@@ -96,7 +96,7 @@ The step you just performed created an admin user for your testorg and also told
 List the current users in `testorg`:
 
 ``` bash
-curl -sSf -u ${HZN_EXCHANGE_ROOT_USER_AUTH} ${HZN_EXCHANGE_URL}orgs/testorg/users | jq .
+curl --silent -sSf -u ${HZN_EXCHANGE_ROOT_USER_AUTH} ${HZN_EXCHANGE_URL}orgs/testorg/users | jq .
 ```
 
 ## Next

@@ -75,6 +75,7 @@ services:
     environment:
       - POSTGRES_DB=${EXCHANGEDB_DATABASE}
       - POSTGRES_USER=${EXCHANGEDB_USER}
+      - POSTGRES_HOST_AUTH_METHOD=trust
   ##
   ## css
   ##
