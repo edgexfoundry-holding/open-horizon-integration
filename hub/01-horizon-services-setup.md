@@ -20,7 +20,7 @@ If you clone this repository, it will be easier to modify and use the configurat
 The following instructions will assume that you have done so and that the contents are in `./horizon-edgex`
 
 ``` bash
-git clone https://github.com/joewxboy/horizon-edgex.git
+git clone https://github.com/edgexfoundry-holding/open-horizon-integration.git
 ```
 
 ### Install Prerequisites
