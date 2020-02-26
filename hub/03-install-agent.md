@@ -18,6 +18,7 @@ Install brew package manager
 brew update
 brew upgrade
 brew install wget
+brew install socat
 ```
 
 [Get and install](https://docs.docker.com/docker-for-mac/install/) Docker
