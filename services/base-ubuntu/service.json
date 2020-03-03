@@ -1,0 +1,34 @@
+{
+  "org": "${HZN_ORG_ID}",
+  "label": "base",
+  "description": "Provides base container with Ubuntu LINUX",
+  "documentation": "https://github.com/edgexfoundry-holding/open-horizon-integration/blob/master/services/base-ubuntu/README.md",
+  "url": "com.github.edgexfoundry-holding.open-horizon-integration.base-ubuntu",
+  "version": "0.0.1",
+  "arch": null,
+  "public": false,
+  "sharable": "singleton",
+  "requiredServices": [],
+  "userInput": [
+    { "name": "BASE_PERIOD", "label": "periodicity", "type": "int", "defaultValue": "30" },
+    { "name": "LOG_LEVEL", "label": "specify logging level", "type": "string", "defaultValue": "info" },
+    { "name": "DEBUG", "label": "debug; true or false", "type": "boolean", "defaultValue": "false" },
+    { "name": "LOGTO", "label": "where to log", "type": "string", "defaultValue": "/dev/stderr" }
+  ],
+  "deployment": {
+    "services": {
+      "base": {
+        "environment": [
+          "SERVICE_LABEL=base",
+          "SERVICE_VERSION=0.0.1"
+        ],
+        "specific_ports": [],
+        "image": null,
+        "privileged": true
+      }
+    }
+  },
+  "tmpfs": {
+    "size": 8192000
+  }
+}
