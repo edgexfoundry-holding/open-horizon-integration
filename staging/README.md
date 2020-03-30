@@ -15,6 +15,12 @@ This is a set of instructions to demonstrate a method for using the [Open Horizo
 
 ## Introduction
 
+The Open Horizon and EdgeX Foundry projects have chosen to work together on this integration project, which will be contributed to the EdgeX project and live in their holding code repository.  This effort demonstrates both how the two communities can work together, and how the two solutions bring value to each other in order to create a greater solution.
+
+Open Horizon will demonstrate containerized application orchestration and delivery, as well as Machine Learning asset synchronzation.  EdgeX Foundry will demonstrate southbound device connectivity and data plane management.  There is virtually no overlap between capabilities, with the possible exception of the EdgeX System Management Agent (SMA).  Where there is potential overlap, there is an opportunity to demonstrate how the two solutions can gracefully interoperate.
+
+This integration effort takes place in three phases: Crawl, Walk, and Run.  Each phase has outlined goals and deliverables which were stipulated in advance, but can be altered, if needed.  At the end of the three phases, we will discuss any further actions to be taken.
+
 _Value of integrating Open Horizon and EdgeX Foundry_
 
 ## Background
