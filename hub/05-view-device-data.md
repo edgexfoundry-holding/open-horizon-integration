@@ -2,7 +2,7 @@
 
 # View the Device Data
 
-Now that EdgeX Foundry is running on your Edge Node and the [Random Integer Device Service](https://docs.edgexfoundry.org/1.2/examples/Ch-ExamplesRandomDeviceService/) is posting a simple random event message every five seconds, let's explore ways to view that data.  We'll then modify the interval and range of values and see it change in reponse.
+Now that EdgeX Foundry (EXF) is running on your Edge Node and the [Random Integer Device Service](https://docs.edgexfoundry.org/1.2/examples/Ch-ExamplesRandomDeviceService/) is posting a simple random event message every five seconds, let's explore ways to view that data.  We'll then modify the interval and range of values and see it change in reponse.
 
 ## Ensure everything is functioning normally
 
@@ -19,7 +19,7 @@ Horizon CLI version: 2.25.0
 Horizon Agent version: 2.25.0
 ```
 
-Check to ensure that the `edgex_1.0.1_amd64` Service is running and your Edge Node is properly configured:
+Check to ensure that your Edge Node is properly configured:
 
 ``` bash
 hzn node list | jq '.configstate'
@@ -34,7 +34,27 @@ You should see output similar to this:
 }
 ```
 
-And last, let's ask Docker to show us the running images:
+Then check to ensure that the `com.github.joewxboy.horizon.edgex` Service is running:
+
+``` bash
+hzn service list
+```
+
+You should see output like this:
+
+``` json
+[
+  {
+    "url": "com.github.joewxboy.horizon.edgex",
+    "org": "mycluster",
+    "version": "1.0.1",
+    "arch": "amd64",
+    "variables": {}
+  }
+]
+```
+
+And last, let's ask Docker to show us the running images contained within that Service:
 
 ``` bash 
 docker ps
@@ -57,7 +77,9 @@ Verify that you see seven images, and that CREATED and STATUS columns show that 
 
 ## View the data
 
-According to the documentation, you could request the URL for Core Data, but that will show you all of the events and readings since the Service was started, which could get quite long:
+Now that you've verified that Open Horizon has deployed EXF, it's time to use EXF to view the events and readings that the Random Integer Device Service is sending.
+
+According to the EXF documentation, you could request the URL for Core Data, but that will show you all of the events and readings since the Service was started, which could get quite long:
 
 ``` bash
 curl --silent http://localhost:48080/api/v1/event | jq
@@ -77,7 +99,7 @@ curl --silent http://localhost:48081/api/v1/device | jq .[0].service
 
 ## Modify the Device Settings
 
-The initial configuration of the Device is specified in the [./hub/res/device-random-config.toml](Device Random Configuration TOML file).  Properties within can be divided into those that can be updated without restarting the service (writable) and those that will not take effect until the Service is restarted (read-only).  
+The initial configuration of the Device is specified in the [Device Random Configuration TOML file](./hub/res/device-random-config.toml).  Properties within can be divided into those that can be updated without restarting the service (writable) and those that will not take effect until the Service is restarted (read-only).  See [Configuration and Registry](https://docs.edgexfoundry.org/1.2/microservices/configuration/Ch-Configuration/#readable-vs-writable-settings) for more information on this topic. 
 
 ### Writable Settings
 
@@ -85,8 +107,18 @@ The Core Command provides a PUT endpoint that will allow you to modify a Device 
 
 ### Read-only Settings
 
-Persisted settings are stored in Consul in a typical EdgeX Foundry installation, and should be modified there.  EdgeX provides several methods to update those values.  In this case, we are using TOML files to configure services, and thus you will need to update the [./hub/res/device-random-config.toml](Device Random Configuration TOML file) to change those value.  A restart of the Service will then be required for the changes to take effect.
+Persisted settings are stored in Consul in a typical EdgeX Foundry installation, and should be modified there.  EdgeX provides several methods to update those values.  In this case, we are using TOML files to configure services, and thus you will need to update the [Device Random Configuration TOML file](./hub/res/device-random-config.toml) to change those value.  A restart of the Service will then be required for any changes to take effect.
 
------
+### Restarting an EXF Service
 
-## The End
+If you had the System Management Agent (SMA) installed you could simply POST a restart action to the appropriate endpoint ([restart a service](https://docs.edgexfoundry.org/1.2/microservices/system-management/agent/Ch_SysMgmtAgent/#restart-a-service)) to initiate a graceful restart of that specific micro-service.  However, we do not have the SMA in our current example.
+
+You could use Open Horizon to restart the Service, but that would introduce two complications.  First, we populated the configuration from a static, external file.  For the settings to persist, we'd need to edit that file before restarting.  Second, we defined the EXF orchestration as a single Horizon Service, which means that you'd have to restart the whole instance of seven Docker images.
+
+Or you could `ssh` to the machine and use the Docker CLI to kill the process and rely on Open Horizon to restart it for you automatically.  While this approach works well, it is not graceful, does not solve the persistence issue, and violates the spirit of Open Horizon in that we're attempting to prevent an administrator from needing to log onto individual Devices in the first place.
+
+Potential ways forward include refactoring the example so that individual EXF micro-services are implemented as individual Open Horizon Services, or adding the SMA to the Open Horizon Service definition.
+
+# Next
+
+[Add the SMA to the Service Definition](06-add-the-sma.md).
