@@ -160,6 +160,6 @@ And once the agreement is finalized, you should be able to see the containers ru
 sudo docker ps
 ```
 
------
+# Next
 
-## The End
+[View the Device Data](05-view-device-data.md).

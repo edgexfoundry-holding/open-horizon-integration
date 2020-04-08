@@ -14,7 +14,7 @@ This is a set of instructions to demonstrate one method for using the [Open Hori
 
 ## Background
 
-The EdgeX Foundry instance will contain a [Random Integer Device Service](https://docs.edgexfoundry.org/Ch-ExamplesRandomDeviceService.html) that will post a simple random event message every five seconds.
+The EdgeX Foundry instance will contain a [Random Integer Device Service](https://docs.edgexfoundry.org/1.2/examples/Ch-ExamplesRandomDeviceService/) that will post a simple random event message every five seconds.
 
 > Caveat Emptor: This document will give you the steps needed to get a small dev instance of the Horizon services running. It will not, and should not, be used to serve edge devices in a production environment. However, it is sufficient to test services.
 
@@ -42,6 +42,7 @@ You will register the device that is running the Agent as an edge node with the 
 2. [Build and Run](02-build-and-run-horizon.md) the Open Horizon Services
 3. [Install the Open Horizon Agent](03-install-agent.md) software
 4. [Configure the Agent](04-configure-anax.md)
+5. [View the Device Data](05-view-device-data.md)
 
 ## FAQ
 
