@@ -34,8 +34,8 @@ The results of `hzn exchange user list` should be something like the following:
 Next we will publish an example EdgeX service to the openhorizon hub and then tell the agent to run the service.
 
 ``` bash
-git clone https://github.com/joewxboy/horizon-edgex.git
-cd ./horizon-edgex
+git clone https://github.com/edgexfoundry-holding/open-horizon-integration.git
+cd ./open-horizon-integration
 ```
 
 First, we'll generate an RSA key pair to be used for signing the edge service.
@@ -61,7 +61,7 @@ The digest is recorded in the published service definition.
 This example service is composed of several EdgeX microservices.
 
 ```
-hzn exchange service publish -P -f ./configs/service.json
+hzn exchange service publish -P -f hub/configs/service.json
 ```
 
 Now check to ensure that the service definition was published and is available in the exchange:
@@ -83,7 +83,7 @@ A pattern is the easiest way for a node to indicate which services it should run
 Policy based service deployment is also supported, but is slightly more complex to setup.
 
 ```
-hzn exchange pattern publish -f ./configs/pattern.json
+hzn exchange pattern publish -f hub/configs/pattern.json
 ```
 
 Now check to ensure the pattern is available:

@@ -135,6 +135,12 @@ Update the package manager
 apt-get -y update
 ```
 
+Install dependencies
+
+``` bash
+apt-get -y install jq
+```
+
 Install and test Docker
 
 ``` bash
@@ -142,31 +148,20 @@ curl -fsSL get.docker.com | sh
 docker --version
 ```
 
-Configure package manager for the Anax Agent:
+Install the Anax Agent:
 
-If you operating system is not xenial (16.x) then update the following appropriately for bionic (18.x).
-*NOTE*: If you did not copy the CRLF after `EOF`, then you will need to press Enter/Return on your keyboard.
-
-``` bash
-wget -qO - http://pkg.bluehorizon.network/bluehorizon.network-public.key | apt-key add -
-aptrepo=testing
-cat <<EOF > /etc/apt/sources.list.d/bluehorizon.list
-deb [arch=$(dpkg --print-architecture)] http://pkg.bluehorizon.network/linux/ubuntu xenial-$aptrepo main
-deb-src [arch=$(dpkg --print-architecture)] http://pkg.bluehorizon.network/linux/ubuntu xenial-$aptrepo main
-EOF
-
-```
-
-Refresh package manager index list
+*NOTE* If your operating system is Ubuntu xenial (16.x) then use `dist=xenial` below.
 
 ``` bash
-apt-get -y update
-```
-
-Install and the Agent
-
-``` bash
-apt-get -y install bluehorizon
+arch=$(dpkg --print-architecture)
+dist=bionic
+version=2.24.18
+wget http://pkg.bluehorizon.network/linux/ubuntu/pool/main/h/horizon/bluehorizon_${version}~ppa~ubuntu.${dist}_all.deb
+wget http://pkg.bluehorizon.network/linux/ubuntu/pool/main/h/horizon/horizon-cli_${version}~ppa~ubuntu.${dist}_${arch}.deb
+wget http://pkg.bluehorizon.network/linux/ubuntu/pool/main/h/horizon/horizon_${version}~ppa~ubuntu.${dist}_${arch}.deb
+dpkg -i horizon-cli_${version}~ppa~ubuntu.${dist}_${arch}.deb
+dpkg -i horizon_${version}~ppa~ubuntu.${dist}_${arch}.deb
+dpkg -i bluehorizon_${version}~ppa~ubuntu.${dist}_all.deb
 ```
 
 IMPORTANT, exit out of root, back to your user account
