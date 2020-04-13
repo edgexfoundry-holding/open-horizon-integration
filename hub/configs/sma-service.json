@@ -1,0 +1,154 @@
+{
+    "org": "${HZN_ORG_ID}",
+    "label": "edgex",
+    "description": "EdgeX Foundry service plus SMA",
+    "documentation": "",
+    "url": "com.github.joewxboy.horizon.edgexsma",
+    "version": "1.0.2",
+    "arch": "amd64",
+    "public": false,
+    "sharable": "singleton",
+    "requiredServices": [],
+    "userInput": [
+      { "name": "EXPORT_DISTRO_CLIENT_HOST", "label": "", "type": "string", "defaultValue": "export-client" },
+      { "name": "EXPORT_DISTRO_DATA_HOST", "label": "", "type": "string", "defaultValue": "edgex-core-data" },
+      { "name": "EXPORT_DISTRO_CONSUL_HOST", "label": "", "type": "string", "defaultValue": "edgex-config-seed" },
+      { "name": "EXPORT_DISTRO_MQTTS_CERT_FILE", "label": "", "type": "string", "defaultValue": "none" },
+      { "name": "EXPORT_DISTRO_MQTTS_KEY_FILE", "label": "", "type": "string", "defaultValue": "none" },
+      { "name": "LOG_LEVEL", "label": "logging level", "type": "string", "defaultValue": "info" },
+      { "name": "LOGTO", "label": "where to log", "type": "string", "defaultValue": "" }
+    ],
+    "deployment": {
+      "services": {
+        "edgex-files": {
+          "binds": [
+            "db-data:/data/db",
+            "log-data:/edgex/logs:rw",
+            "consul-config:/consul/config",
+            "consul-data:/consul/data"
+          ],
+          "image": "edgexfoundry/docker-edgex-volume:1.0.0",
+          "privileged": true
+        },
+        "edgex-mongo": {
+          "binds": [
+            "db-data:/data/db",
+            "log-data:/edgex/logs:rw",
+            "consul-config:/consul/config",
+            "consul-data:/consul/data"
+          ],
+          "specific_ports": [
+            { "HostPort": "27017/tcp", "HostIP": "0.0.0.0" }
+          ],
+          "image": "edgexfoundry/docker-edgex-mongo:1.0.1",
+          "privileged": true
+        },
+        "edgex-support-logging": {
+          "binds": [
+            "db-data:/data/db",
+            "log-data:/edgex/logs:rw",
+            "consul-config:/consul/config",
+            "consul-data:/consul/data",
+            "/root/res/logging-config.toml:/res/docker/configuration.toml:ro"
+          ],
+          "command": [
+            "--registry=false"
+          ],
+          "specific_ports": [
+            { "HostPort": "48061/tcp", "HostIP": "0.0.0.0" }
+          ],
+          "image": "edgexfoundry/docker-support-logging-go:1.0.1",
+          "privileged": true
+        },
+        "edgex-sys-mgmt-agent": {
+            "binds": [
+                "db-data:/data/db",
+                "log-data:/edgex/logs:rw",
+                "consul-config:/consul/config",
+                "consul-data:/consul/data",
+                "/var/run/docker.sock:/var/run/docker.sock:rw",
+                "/root/res/sma-config.toml:/res/docker/sma-config.toml:ro"
+            ],
+            "command": [
+                "--registry=false"
+            ],
+            "specific_ports": [
+                { "HostPort": "48090/tcp", "HostIP": "0.0.0.0" }
+            ],
+            "image": "edgexfoundry/docker-sys-mgmt-agent-go:1.0.1",
+            "privileged": true
+        },
+        "edgex-core-metadata": {
+          "binds": [
+            "db-data:/data/db",
+            "log-data:/edgex/logs:rw",
+            "consul-config:/consul/config",
+            "consul-data:/consul/data",
+            "/root/res/metadata-config.toml:/res/docker/configuration.toml:ro"
+          ],
+          "command": [
+            "--registry=false"
+          ],
+          "specific_ports": [
+            { "HostPort": "48081/tcp", "HostIP": "0.0.0.0" }
+          ],
+          "image": "edgexfoundry/docker-core-metadata-go:1.0.1",
+          "privileged": true
+        },
+        "edgex-core-data": {
+          "binds": [
+            "db-data:/data/db",
+            "log-data:/edgex/logs:rw",
+            "consul-config:/consul/config",
+            "consul-data:/consul/data",
+            "/root/res/data-config.toml:/res/docker/configuration.toml:ro"
+          ],
+          "command": [
+            "--registry=false"
+          ],
+          "specific_ports": [
+            { "HostPort": "48080/tcp", "HostIP": "0.0.0.0" },
+            { "HostPort": "5563/tcp", "HostIP": "0.0.0.0" }
+          ],
+          "image": "edgexfoundry/docker-core-data-go:1.0.1",
+          "privileged": true
+        },
+        "edgex-core-command": {
+          "binds": [
+            "db-data:/data/db",
+            "log-data:/edgex/logs:rw",
+            "consul-config:/consul/config",
+            "consul-data:/consul/data",
+            "/root/res/command-config.toml:/res/docker/configuration.toml:ro"
+          ],
+          "command": [
+            "--registry=false"
+          ],
+          "specific_ports": [
+            { "HostPort": "48082/tcp", "HostIP": "0.0.0.0" }
+          ],
+          "image": "edgexfoundry/docker-core-command-go:1.0.1",
+          "privileged": true
+        },
+        "edgex-device-random": {
+          "binds": [
+            "db-data:/data/db",
+            "log-data:/edgex/logs:rw",
+            "consul-config:/consul/config",
+            "consul-data:/consul/data",
+            "/root/res/device-random-config.toml:/res/configuration.toml:ro",
+            "/root/res/device-random.yaml:/res/device-random.yaml:ro"
+          ],
+          "specific_ports": [
+            { "HostPort": "49988/tcp", "HostIP": "0.0.0.0" }
+          ],
+          "image": "edgexfoundry/docker-device-random-go:1.0.0",
+          "privileged": true
+        }
+      }
+    },
+    "sync": true,
+    "tmpfs": {
+      "size": 8192000
+    }
+  }
