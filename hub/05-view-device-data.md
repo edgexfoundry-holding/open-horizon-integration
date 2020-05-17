@@ -121,4 +121,4 @@ Potential ways forward include refactoring the example so that individual EXF mi
 
 # Next
 
-[Add the SMA to the Service Definition](06-add-the-sma.md).
+[Separate EdgeX Foundry Core from Devices](06-separate-core-from-devices.ms).
