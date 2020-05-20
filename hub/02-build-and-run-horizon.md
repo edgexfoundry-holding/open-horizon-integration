@@ -9,7 +9,7 @@ If you are not, you may need to export all previous environment variables from s
 ### Create and Persist Environment Variables
 
 ``` bash
-export MY_IP=`ifconfig | egrep 'inet ' | awk '{ print $2 }' | egrep -v '^172.|^10.|^127.' | head -1`
+export MY_IP=`ifconfig | egrep 'inet ' | sed 's/addr://' | awk '{ print $2 }' | egrep -v '^172.|^10.|^127.' | head -1`
 echo "export MY_IP=${MY_IP}" >> ~/.bashrc
 export HZN_ORG_ID=testorg
 echo "export HZN_ORG_ID=testorg" >> ~/.bashrc
