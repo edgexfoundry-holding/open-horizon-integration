@@ -1,0 +1,8 @@
+{
+    "HZN_ORG_ID": "testorg",
+    "MetadataVars": {
+        "DOCKER_IMAGE_BASE": "",
+        "SERVICE_NAME": "",
+        "SERVICE_VERSION": ""
+    }
+}
